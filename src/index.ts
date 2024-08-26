@@ -1,7 +1,4 @@
-class FalsyUtils {
-  static isTrue() {
-    return true
-  }
-}
+import FuDate from "date/FuDate"
 
-export default FalsyUtils
+export default { fuDate: FuDate }
+export { IFuDate, IDateProperties } from "date/IFuDate"
