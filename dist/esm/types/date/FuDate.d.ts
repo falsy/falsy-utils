@@ -2,12 +2,21 @@ import { IDateProperties, IFuDate } from "./IFuDate";
 declare class FuDate implements IFuDate {
     private readonly date;
     /**
-     * Initializes the class with a given date value.
+     * Initializes the class with a given date value or the current date if no value is provided.
      *
-     * @param {number | string | Date} dateValue - A Date object or a string representing a date. This value is parsed and used to set the internal date.
-     * @throws {Error} Throws an error if the provided date string or Date object is invalid.
+     * @param {number | string | Date} [dateValue] - The value used to initialize the date. It can be a timestamp (number), a date string, a Date object, or undefined.
+     * - If no value is provided, the current date and time will be used.
+     * - If a valid value is provided, it will be parsed into a Date object.
+     * @throws {Error} Throws an error if the provided date value cannot be parsed into a valid Date object.
+     *
+     * @example
+     * const instance1 = new FuDate(); // Initializes with the current date and time.
+     * const instance2 = new FuDate(1629918000000); // Initializes with a timestamp.
+     * const instance3 = new FuDate("2023-08-27T10:15:00Z"); // Initializes with a valid date string.
+     * const instance4 = new FuDate("2023-08-27 10:15:00"); // Initializes with a custom date string.
+     * const instance5 = new FuDate(new Date()); // Initializes with a Date object.
      */
-    constructor(dateValue: number | string | Date);
+    constructor(dateValue?: number | string | Date);
     /**
      * Retrieves the current date.
      *
