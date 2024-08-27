@@ -54,16 +54,16 @@ const dateString = "2023-08-27T10:15:00Z"
 console.log(new FuDate(dateString).getDateProperties("en"))
 //{
 //  "year": "2023",
-//  "month":"08",
-//  "day":"27",
-//  "yearMonthDay":"2023-08-27",
-//  "yearMonth":"2023-08",
-//  "hourMinuteSecond":"19:15:00",
-//  "hourMinute":"19:15",
-//  "dayOfWeek":0,
-//  "dayOfWeekLongName":"Sunday",
-//  "dayOfWeekShortName":"Sun",
-//  "longTime":1693131300000
+//  "month": "08",
+//  "day": "27",
+//  "yearMonthDay":" 2023-08-27",
+//  "yearMonth": "2023-08",
+//  "hourMinuteSecond": "19:15:00",
+//  "hourMinute": "19:15",
+//  "dayOfWeek": 0,
+//  "dayOfWeekLongName": "Sunday",
+//  "dayOfWeekShortName": "Sun",
+//  "longTime": 1693131300000
 //}
 ```
 
