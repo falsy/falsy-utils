@@ -15,7 +15,8 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": "src",
     "paths": {
-      "@index": ["index.ts"]
+      "date/*": ["date/*"],
+      "array/*": ["array/*"]
     }
   },
   "exclude": ["node_modules", "dist"]

@@ -12,15 +12,6 @@ export interface IDateProperties {
   longTime: number
 }
 
-export interface IDateComponents {
-  year: number
-  month: number
-  day: number
-  hour: number
-  minute: number
-  second: number
-}
-
 export interface IFuDate {
   getDate(): Date
   getDateProperties(locales?: string): IDateProperties

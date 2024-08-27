@@ -1,4 +1,4 @@
-import { IDateComponents, IDateProperties, IFuDate } from "./IFuDate"
+import { IDateProperties, IFuDate } from "./IFuDate"
 
 class FuDate implements IFuDate {
   private readonly date: Date
@@ -6,10 +6,10 @@ class FuDate implements IFuDate {
   /**
    * Initializes the class with a given date value.
    *
-   * @param {string | Date} dateValue - A Date object or a string representing a date. This value is parsed and used to set the internal date.
+   * @param {number | string | Date} dateValue - A Date object or a string representing a date. This value is parsed and used to set the internal date.
    * @throws {Error} Throws an error if the provided date string or Date object is invalid.
    */
-  constructor(dateValue: string | Date) {
+  constructor(dateValue: number | string | Date) {
     this.date = this.parse(dateValue)
   }
 
@@ -95,12 +95,12 @@ class FuDate implements IFuDate {
   /**
    * Matches a date string in the format 'YYYY-MM-DD HH:MM:SS' and converts it to a Date object if valid.
    *
-   * @param {string | Date} dateValue - A date string in 'YYYY-MM-DD HH:MM:SS' format or a Date object.
+   * @param {number | string | Date} dateValue - A date string in 'YYYY-MM-DD HH:MM:SS' format or a Date object.
    * @returns {Date | null} Returns the corresponding Date object if the date string is valid and matches the format, otherwise returns `null`.
    * @throws {Error} Throws an error if the date string is invalid or does not match the expected format.
    */
-  private matchDateValue(dateValue: string | Date): Date {
-    if (typeof dateValue !== "string") return
+  private matchDateValue(dateValue: number | string | Date): Date {
+    if (typeof dateValue !== "string") return null
 
     // Date Format:
     // YYYY-MM-DD HH:MM:SS
@@ -126,40 +126,61 @@ class FuDate implements IFuDate {
   }
 
   /**
-   * Split Date data into year, month, day, hour, minute, and second formats.
+   * Parses a date value from a number, string, or Date object into a valid Date object.
    *
-   * @param {string | Date} dateValue A Date object or a string in date format.
-   * @returns {IDateComponents} Object with year, month, day, hour, minute, and second values.
-   * @throws {Error} Throws an error if the provided date string or Date object is invalid.
+   * @param {number | string | Date} dateValue - The value to parse into a Date object. It can be a timestamp (number), a date string, or an existing Date object.
+   * @returns {Date} A valid Date object based on the provided input.
+   * @throws {Error} Throws an error if the number is not a valid finite timestamp.
+   * @throws {Error} Throws an error if the string cannot be parsed into a valid date.
+   * @throws {Error} Throws an error if the provided Date object is invalid (e.g., the time is NaN).
+   * @throws {Error} Throws an error if the input is not a number, string, or Date object.
+   *
+   * @example
+   * // Parsing a timestamp
+   * const date1 = parse(1629918000000); // Valid timestamp
+   *
+   * // Parsing a valid date string
+   * const date2 = parse("2023-08-27T10:15:00Z"); // Valid date string
+   *
+   * // Parsing an existing Date object
+   * const date3 = parse(new Date()); // Valid Date object
+   *
+   * // Throws an error for invalid input
+   * parse("invalid-date"); // Throws: "Invalid date string"
    */
-  private extractDateTimeComponents(dateValue: string | Date): IDateComponents {
-    const dateMatch = this.matchDateValue(dateValue) || null
-    const date = dateMatch ? dateMatch : new Date(dateValue)
-
-    if (isNaN(date.getTime())) {
-      throw new Error("Invalid date")
+  private parse(dateValue: number | string | Date): Date {
+    if (typeof dateValue === "number") {
+      if (!isFinite(dateValue)) {
+        throw new Error("Invalid number provided for date")
+      }
+      const date = new Date(dateValue)
+      if (isNaN(date.getTime())) {
+        throw new Error("Invalid date: number is not a valid timestamp")
+      }
+      return date
     }
 
-    return {
-      year: date.getFullYear(),
-      month: date.getMonth() + 1,
-      day: date.getDate(),
-      hour: date.getHours(),
-      minute: date.getMinutes(),
-      second: date.getSeconds()
-    }
-  }
+    if (typeof dateValue === "string") {
+      const matchedDate = this.matchDateValue(dateValue)
+      if (matchedDate) {
+        return matchedDate
+      }
 
-  /**
-   * Converts the input date object or date format string to a date object.
-   *
-   * @param {string | Date} dateValue A Date object or a string in date format.
-   * @returns {Date} Date object of the input value.
-   */
-  private parse(dateValue: string | Date): Date {
-    const { year, month, day, hour, minute, second } =
-      this.extractDateTimeComponents(dateValue)
-    return new Date(year, month - 1, day, hour, minute, second)
+      const date = new Date(dateValue)
+      if (isNaN(date.getTime())) {
+        throw new Error("Invalid date string")
+      }
+      return date
+    }
+
+    if (dateValue instanceof Date) {
+      if (isNaN(dateValue.getTime())) {
+        throw new Error("Invalid Date object provided")
+      }
+      return dateValue
+    }
+
+    throw new Error("Invalid input: must be a number, string, or Date")
   }
 }
 

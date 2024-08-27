@@ -9,6 +9,7 @@
   "coverageDirectory": "../coverage",
   "testEnvironment": "node",
   "moduleNameMapper": {
-    "^@index$": "<rootDir>/index.ts"
+    "^date/(.*)$": "<rootDir>/date/$1",
+    "^array/(.*)$": "<rootDir>/array/$1"
   }
 }

@@ -1,4 +1,5 @@
-import FuDate from "date/FuDate"
+import FuDate from "./date/FuDate"
 
-export default { fuDate: FuDate }
-export { IFuDate, IDateProperties } from "date/IFuDate"
+export { FuDate }
+export { multiFilter, groupBy, groupAndSort } from "./array/FuArray"
+export { IFuDate, IDateProperties } from "./date/IFuDate"
