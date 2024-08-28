@@ -8,17 +8,22 @@ on:
     branches:
       - main
 
-permissions:
-  id-token: write
-  contents: read
-
 jobs:
   build:
     runs-on: ubuntu-latest
 
+    permissions:
+      id-token: write
+      contents: read
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+          registry-url: "https://registry.npmjs.org"
 
       - name: Install dependencies
         run: npm install
@@ -29,19 +34,11 @@ jobs:
       - name: Build package
         run: npm run rollup
 
-      - name: Commit files
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: |
-          git config --global user.email "me@falsy.me"
-          git config --global user.name "Do it for fun 🕹"
-          git add .
-          git commit -m "Build artifacts committed by GitHub Actions"
-
       - name: Push changes
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.PAT_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: "main"
 
       - name: Publish to npm
