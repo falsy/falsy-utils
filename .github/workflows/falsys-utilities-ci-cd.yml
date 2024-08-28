@@ -36,9 +36,10 @@ jobs:
           git config --global user.name "Do it for fun 🕹"
           git add .
           git commit -m "Build artifacts committed by GitHub Actions"
-          git push https://falsy:${{ secrets.PAT_TOKEN }}@github.com/falsy/falsys-utilities.git
+          git push origin HEAD:main
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GIT_ASKPASS: /bin/true
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
 
       - name: Publish to npm
         run: npm publish --provenance --access public
