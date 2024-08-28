@@ -29,20 +29,16 @@ jobs:
       - name: Build package
         run: npm run rollup
 
-      - name: Commit files
+      - name: Push changes
         if: github.ref == 'refs/heads/main'
         run: |
           git config --global user.email "me@falsy.me"
           git config --global user.name "Do it for fun 🕹"
           git add .
           git commit -m "Build artifacts committed by GitHub Actions"
-
-      - name: Push changes
-        if: github.ref == 'refs/heads/main'
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.PAT_TOKEN }}
-          branch: "main"
+          git push https://falsy:${{ secrets.PAT_TOKEN }}@github.com/falsy/falsys-utilities.git
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish to npm
         run: npm publish --provenance --access public
