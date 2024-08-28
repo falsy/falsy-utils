@@ -14,6 +14,8 @@ All the methods provided so far are listed below.
 
 ### Constructor()
 
+Initializes the class with a given date value or the current date if no value is provided.
+
 ```ts
 import { FuDate } from "falsys-utilities"
 
@@ -31,6 +33,8 @@ const instance5 = new FuDate(new Date())
 
 ### getDate()
 
+Retrieves the current date.
+
 ```ts
 import { FuDate } from "falsys-utilities"
 
@@ -46,12 +50,15 @@ console.log(dateTime === fuDateTime)
 
 ### getDateProperties(locales?: string)
 
+Extracts various date and time properties from the Date object.
+
 ```ts
 import { FuDate } from "falsys-utilities"
 
 const dateString = "2023-08-27T10:15:00Z"
+const dateProperties = new FuDate(dateString).getDateProperties("en")
 
-console.log(new FuDate(dateString).getDateProperties("en"))
+console.log(dateProperties)
 //{
 //  "year": "2023",
 //  "month": "08",
@@ -71,6 +78,8 @@ console.log(new FuDate(dateString).getDateProperties("en"))
 
 ### multiFilter<T>(arr: T[], filters: FilterFunction<T>[])
 
+Filters an array using multiple filter functions and returns the filtered results in separate arrays.
+
 ```ts
 import { multiFilter } from "falsys-utilities"
 
@@ -80,11 +89,15 @@ const filters = [
   (n) => n % 2 !== 0 // Filter odd numbers
 ]
 const result = multiFilter(arr, filters)
+
 console.log(result)
 // [[2, 4, 6], [1, 3, 5]]
 ```
 
 ### groupBy<T extends object>(arr: T[], key: string)
+
+Groups the elements of an array based on the specified key.  
+The elements must be objects, and the key must exist in the objects.
 
 ```ts
 import { groupBy } from "falsys-utilities"
@@ -95,6 +108,7 @@ const arr = [
   { name: "Charlie", age: 25 }
 ]
 const result = groupBy(arr, "age")
+
 console.log(result)
 // {
 //   "25": [ { name: 'Alice', age: 25 }, { name: 'Charlie', age: 25 } ],
@@ -103,6 +117,8 @@ console.log(result)
 ```
 
 ### groupAndSort<T extends object>(arr: T[], key: keyof T, comparator: (a: T[keyof T], b: T[keyof T]) => number)
+
+Groups the elements of an array based on the specified key and sorts the resulting groups using a custom comparator.
 
 ```ts
 import { groupAndSort } from "falsys-utilities"
@@ -113,6 +129,7 @@ const arr = [
   { name: "Charlie", age: 25 }
 ]
 const result = groupAndSort(arr, "age", (a, b) => (a as number) - (b as number))
+
 console.log(result)
 // [
 //   { age: 25, data: [ { name: 'Alice', age: 25 }, { name: 'Charlie', age: 25 } ] },
