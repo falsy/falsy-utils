@@ -13,6 +13,10 @@
     "utility",
     "library"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/falsy/falsys-utilities.git"
+  },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-node-resolve": "^15.2.3",
