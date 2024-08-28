@@ -33,7 +33,7 @@ jobs:
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: |
           git config --global user.email "me@falsy.me"
-          git config --global user.name "falsy"
+          git config --global user.name "Do it for fun 🕹"
           git add .
           git commit -m "Build artifacts committed by GitHub Actions"
           git push origin main
