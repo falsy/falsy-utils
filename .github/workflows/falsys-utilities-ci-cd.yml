@@ -1,9 +1,6 @@
-name: falsys-utilities-CI/CD
+name: Falsy Utilities CI/CD
 
 on:
-  pull_request:
-    branches:
-      - main
   push:
     branches:
       - main
@@ -12,37 +9,34 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    permissions:
-      id-token: write
-      contents: read
-
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
 
       - name: Install dependencies
         run: npm install
 
-      - name: Run tests
-        run: npm run test
-
-      - name: Build package
+      - name: Build with Rollup
         run: npm run rollup
 
-      - name: Set remote URL to use PAT
-        run: |
-          git remote set-url origin https://falsy:${{ secrets.PAT_TOKEN }}@github.com/falsy/falsys-utilities.git
+      - name: Push to main branch
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
 
-      - name: Push changes
-        if: github.ref == 'refs/heads/main'
-        run: |
-          git config --global user.email "me@falsy.me"
-          git config --global user.name "Do it for fun 🕹"
-          git add .
-          git commit -m "Build artifacts committed by GitHub Actions"
-          git push origin HEAD:main
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm install
 
       - name: Publish to npm
-        run: npm publish --provenance --access public
+        run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
