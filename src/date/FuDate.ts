@@ -10,13 +10,6 @@ class FuDate implements IFuDate {
    * - If no value is provided, the current date and time will be used.
    * - If a valid value is provided, it will be parsed into a Date object.
    * @throws {Error} Throws an error if the provided date value cannot be parsed into a valid Date object.
-   *
-   * @example
-   * const instance1 = new FuDate(); // Initializes with the current date and time.
-   * const instance2 = new FuDate(1629918000000); // Initializes with a timestamp.
-   * const instance3 = new FuDate("2023-08-27T10:15:00Z"); // Initializes with a valid date string.
-   * const instance4 = new FuDate("2023-08-27 10:15:00"); // Initializes with a custom date string.
-   * const instance5 = new FuDate(new Date()); // Initializes with a Date object.
    */
   constructor(dateValue?: number | string | Date) {
     if (typeof dateValue === "undefined") {
@@ -38,12 +31,12 @@ class FuDate implements IFuDate {
   /**
    * Extracts various date and time properties from the Date object.
    *
-   * @param {string} [locales] - Optional locale string for formatting the day of the week name. Defaults to the system's locale.
+   * @param {string} [locale] - Optional locale string for formatting the day of the week name. Defaults to the system's locale.
    * @returns {IDateProperties} An object containing various date and time properties such as year, month, day, day of the week, and formatted strings.
    */
-  getDateProperties(locales?: string): IDateProperties {
-    const localeValue = locales
-      ? locales
+  getDateProperties(locale?: string): IDateProperties {
+    const localeValue = locale
+      ? locale
       : Intl.DateTimeFormat().resolvedOptions().locale
     const year = this.date.getFullYear().toString()
     const month = (this.date.getMonth() + 1).toString().padStart(2, "0")
@@ -56,15 +49,19 @@ class FuDate implements IFuDate {
       year,
       month,
       day,
+      hour,
+      minute,
+      second,
       yearMonthDay: `${year}-${month}-${day}`,
       yearMonth: `${year}-${month}`,
+      monthDay: `${month}-${day}`,
       hourMinuteSecond: `${hour}:${minute}:${second}`,
       hourMinute: `${hour}:${minute}`,
       dayOfWeek: this.date.getDay(),
-      dayOfWeekLongName: this.date.toLocaleDateString(localeValue, {
+      dayOfWeekLong: this.date.toLocaleDateString(localeValue, {
         weekday: "long"
       }),
-      dayOfWeekShortName: this.date.toLocaleDateString(localeValue, {
+      dayOfWeekShort: this.date.toLocaleDateString(localeValue, {
         weekday: "short"
       }),
       longTime: this.date.getTime()
@@ -147,19 +144,6 @@ class FuDate implements IFuDate {
    * @throws {Error} Throws an error if the string cannot be parsed into a valid date.
    * @throws {Error} Throws an error if the provided Date object is invalid (e.g., the time is NaN).
    * @throws {Error} Throws an error if the input is not a number, string, or Date object.
-   *
-   * @example
-   * // Parsing a timestamp
-   * const date1 = parse(1629918000000); // Valid timestamp
-   *
-   * // Parsing a valid date string
-   * const date2 = parse("2023-08-27T10:15:00Z"); // Valid date string
-   *
-   * // Parsing an existing Date object
-   * const date3 = parse(new Date()); // Valid Date object
-   *
-   * // Throws an error for invalid input
-   * parse("invalid-date"); // Throws: "Invalid date string"
    */
   private parse(dateValue: number | string | Date): Date {
     if (typeof dateValue === "number") {
