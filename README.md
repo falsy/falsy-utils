@@ -28,6 +28,30 @@ console.log(result)
 // [[2, 4, 6], [1, 3, 5]]
 ```
 
+## asyncMap
+
+Returns a Promise that resolves with a new array containing the results of asynchronously applying the mapping function to each element.
+
+```ts
+import { asyncMap } from "falsys-utilities"
+
+const array = [1, 2, 3, 4]
+const asyncFnc = (d: number): Promise<number> => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(d * d)
+    }, 100)
+  })
+}
+
+const result = await asyncMap(array, async (n) => {
+  return await asyncFnc(n)
+})
+
+console.log(result)
+// [1, 4, 9, 16]
+```
+
 ## groupBy
 
 Groups the elements of an array based on the specified key.  
