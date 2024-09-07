@@ -1,4 +1,4 @@
-interface IDateProperties {
+interface IDateParts {
     year: string;
     month: string;
     day: string;
@@ -15,65 +15,68 @@ interface IDateProperties {
     dayOfWeekShort: string;
     longTime: number;
 }
-interface IFuDate {
+interface ILightKitDate {
     getDate(): Date;
-    getDateProperties(locales?: string): IDateProperties;
+    getDateParts(locales?: string): IDateParts;
+    differenceIn(date: Date, unit: "year" | "month" | "day" | "hour" | "minute" | "second"): number;
 }
 
-declare class FuDate implements IFuDate {
+declare class LDate implements ILightKitDate {
     private readonly date;
     /**
-     * Initializes the class with a given date value or the current date if no value is provided.
+     * 주어진 날짜 값으로 클래스를 초기화하거나, 값이 제공되지 않으면 현재 날짜로 클래스를 초기화합니다.
      *
-     * @param {number | string | Date} [dateValue] - The value used to initialize the date. It can be a timestamp (number), a date string, a Date object, or undefined.
-     * - If no value is provided, the current date and time will be used.
-     * - If a valid value is provided, it will be parsed into a Date object.
-     * @throws {Error} Throws an error if the provided date value cannot be parsed into a valid Date object.
+     * @param {number | string | Date} [dateValue] - 날짜를 초기화하는 데 사용되는 값입니다.
+     * - 값이 제공되지 않으면 현재 날짜와 시간이 사용됩니다.
+     * - 유효한 값이 제공되면 Date 객체로 구문 분석됩니다.
      */
     constructor(dateValue?: number | string | Date);
     /**
-     * Retrieves the current date.
+     * 현재 날짜를 검색합니다.
      *
-     * @returns {Date} A Date object representing the current date and time.
+     * @returns {Date} 현재 날짜와 시간을 나타내는 Date 객체입니다.
      */
     getDate(): Date;
     /**
-     * Extracts various date and time properties from the Date object.
+     * Date 객체에서 다양한 날짜 및 시간 속성을 추출합니다.
      *
-     * @param {string} [locale] - Optional locale string for formatting the day of the week name. Defaults to the system's locale.
-     * @returns {IDateProperties} An object containing various date and time properties such as year, month, day, day of the week, and formatted strings.
+     * @param {string} [locale] - 요일 이름을 포맷하기 위한 선택적 로케일 문자열. 시스템 로케일을 기본값으로 사용합니다.
+     * @returns {IDateParts} 다양한 날짜 및 시간 속성을 포함하는 객체입니다.
      */
-    getDateProperties(locale?: string): IDateProperties;
+    getDateParts(locale?: string): IDateParts;
     /**
-     * Validates whether a given Date object matches the specified year, month, day, hour, minute, and second.
+     * 현재 날짜(this.date)와 제공된 날짜(date) 사이의 지정된 단위(unit) 내 차이를 계산합니다.
      *
-     * @param {Date} date - The Date object to validate.
-     * @param {number} year - The expected year.
-     * @param {number} month - The expected month (1-12).
-     * @param {number} [day] - The optional expected day of the month.
-     * @param {number} [hour] - The optional expected hour of the day (0-23).
-     * @param {number} [minute] - The optional expected minute (0-59).
-     * @param {number} [second] - The optional expected second (0-59).
-     * @returns {boolean} Returns `true` if all provided date components match the Date object, otherwise `false`.
+     * @param {Date} date - 비교할 다른 날짜입니다.
+     * @param {"year" | "month" | "day" | "hour" | "minute" | "second"} unit - 차이를 계산할 단위입니다.
+     * @returns {number} 지정된 단위 내의 차이입니다.
+     */
+    differenceIn(date: Date, unit: "year" | "month" | "day" | "hour" | "minute" | "second"): number;
+    /**
+     * 주어진 Date 객체가 지정된 년, 월, 일, 시, 분, 초와 일치하는지 확인합니다.
+     *
+     * @param {Date} date - 검증할 Date 객체.
+     * @param {number} year - 예상 년도.
+     * @param {number} month - 예상 월(1-12).
+     * @param {number} [day] - 선택 사항인 해당 월의 예상 일.
+     * @param {number} [hour] - 선택 사항인 해당 일의 예상 시간(0-23).
+     * @param {number} [minute] - 선택 사항인 예상 분(0-59).
+     * @param {number} [second] - 선택 사항인 예상 초(0-59).
+     * @returns {boolean} 제공된 모든 날짜 구성 요소가 Date 객체와 일치하면 `true`를 반환하고, 그렇지 않으면 `false`를 반환합니다.
      */
     private validationDate;
     /**
-     * Matches a date string in the format 'YYYY-MM-DD HH:MM:SS' and converts it to a Date object if valid.
+     * 추가적으로 정의된 날짜 형식의 문자열에 해당하는 경우 Date 객체로 변환합니다.
      *
-     * @param {number | string | Date} dateValue - A date string in 'YYYY-MM-DD HH:MM:SS' format or a Date object.
-     * @returns {Date | null} Returns the corresponding Date object if the date string is valid and matches the format, otherwise returns `null`.
-     * @throws {Error} Throws an error if the date string is invalid or does not match the expected format.
+     * @param {number | string | Date} dateValue - 날짜 문자열 또는 Date 객체.
+     * @returns {Date | null} 날짜 문자열이 유효하고 형식과 일치하면 해당 Date 객체를 반환하고, 그렇지 않으면 `null`을 반환합니다.
      */
     private matchDateValue;
     /**
-     * Parses a date value from a number, string, or Date object into a valid Date object.
+     * 숫자, 문자열 또는 Date 객체를 유효한 Date 객체로 구문 분석합니다.
      *
-     * @param {number | string | Date} dateValue - The value to parse into a Date object. It can be a timestamp (number), a date string, or an existing Date object.
-     * @returns {Date} A valid Date object based on the provided input.
-     * @throws {Error} Throws an error if the number is not a valid finite timestamp.
-     * @throws {Error} Throws an error if the string cannot be parsed into a valid date.
-     * @throws {Error} Throws an error if the provided Date object is invalid (e.g., the time is NaN).
-     * @throws {Error} Throws an error if the input is not a number, string, or Date object.
+     * @param {number | string | Date} dateValue - Date 객체로 파싱할 값입니다. 타임스탬프(숫자), 날짜 문자열 또는 기존 Date 객체가 될 수 있습니다.
+     * @returns {Date} 제공된 입력을 기반으로 하는 유효한 Date 객체입니다.
      */
     private parse;
 }
@@ -131,4 +134,4 @@ declare function groupBy<T extends object>(arr: T[], key: string): GroupedData<T
  */
 declare function multiFilter<T>(arr: T[], filters: FilterFunction<T>[]): T[][];
 
-export { FuDate, type IDateProperties, type IFuDate, asyncMap, groupAndSort, groupBy, multiFilter };
+export { type IDateParts, type ILightKitDate, LDate, asyncMap, groupAndSort, groupBy, multiFilter };

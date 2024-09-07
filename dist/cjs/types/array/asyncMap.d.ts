@@ -1,4 +1,4 @@
-import { MapFunction } from "./interfaces";
+import { MapFunction } from "../interfaces/array";
 /**
  * 제공된 매핑 함수를 사용하여 요소 배열을 비동기적으로 매핑하고 Promise를 반환합니다.
  *
