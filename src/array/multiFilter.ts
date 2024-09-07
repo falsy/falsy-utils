@@ -1,4 +1,4 @@
-import { FilterFunction } from "./interfaces"
+import { FilterFunction } from "../interfaces/array"
 
 /**
  * 여러 개의 필터 함수를 사용하여 배열을 필터링하고 필터링된 결과를 별도의 배열로 반환합니다.

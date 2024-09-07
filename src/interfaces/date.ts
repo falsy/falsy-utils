@@ -1,4 +1,4 @@
-export interface IDateProperties {
+export interface IDateParts {
   year: string
   month: string
   day: string
@@ -16,7 +16,11 @@ export interface IDateProperties {
   longTime: number
 }
 
-export interface IFuDate {
+export interface ILightKitDate {
   getDate(): Date
-  getDateProperties(locales?: string): IDateProperties
+  getDateParts(locales?: string): IDateParts
+  differenceIn(
+    date: Date,
+    unit: "year" | "month" | "day" | "hour" | "minute" | "second"
+  ): number
 }

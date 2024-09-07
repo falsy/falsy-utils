@@ -1,12 +1,12 @@
-import FuDate from "date/FuDate"
+import Ldate from "date/LDate"
 
-describe("getDateProperties", () => {
+describe("getDateParts", () => {
   test("올바른 날짜의 하위 속성들을 응답합니다.", () => {
     const dateString = "2023-08-27 15:30:45"
-    const fuDate = new FuDate(dateString)
+    const ldate = new Ldate(dateString)
     const locale = "en"
-    const properties = fuDate.getDateProperties(locale)
-    console.log(properties)
+    const properties = ldate.getDateParts(locale)
+
     expect(properties).toEqual({
       year: "2023",
       month: "08",

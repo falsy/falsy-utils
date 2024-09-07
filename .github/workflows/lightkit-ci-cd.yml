@@ -1,4 +1,4 @@
-name: Falsy Utilities CI/CD
+name: LightKit CI/CD
 
 on:
   push:

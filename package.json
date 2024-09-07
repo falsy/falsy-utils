@@ -1,6 +1,6 @@
 {
-  "name": "falsys-utilities",
-  "version": "0.0.6",
+  "name": "lightkit",
+  "version": "0.0.1",
   "description": "A commonly used lightweight utility library",
   "scripts": {
     "test": "jest",
@@ -15,7 +15,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/falsy/falsys-utilities.git"
+    "url": "https://github.com/falsy/lightkit.git"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^26.0.1",

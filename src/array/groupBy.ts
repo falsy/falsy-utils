@@ -1,4 +1,4 @@
-import { GroupedData } from "./interfaces"
+import { GroupedData } from "../interfaces/array"
 
 /**
  * 지정된 키를 기준으로 배열의 요소를 그룹화합니다.

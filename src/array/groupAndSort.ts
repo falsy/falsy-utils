@@ -1,5 +1,5 @@
 import { groupBy } from "array/groupBy"
-import { GroupedData } from "./interfaces"
+import { GroupedData } from "../interfaces/array"
 
 /**
  * 지정된 키를 기준으로 배열의 요소를 그룹화하고 사용자 정의한 정렬 함수를 사용하여 결과 그룹을 정렬합니다.
